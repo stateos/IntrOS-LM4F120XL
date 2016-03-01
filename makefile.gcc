@@ -1,0 +1,9 @@
+PROJECT =
+DEFS    = USE_NANO
+LIBS    =
+DIRS    =
+KEYS    =
+INCS    =
+OUT_DIR =
+
+include startup/.gcc/makefile
