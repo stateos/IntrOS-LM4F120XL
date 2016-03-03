@@ -1,7 +1,7 @@
 #**********************************************************#
 #file     makefile
 #author   Rajmund Szymanski
-#date     22.02.2016
+#date     03.03.2016
 #brief    LM4F120H5QR makefile.
 #**********************************************************#
 
@@ -222,7 +222,7 @@ else
 	$(RM) $(GENERATED)
 endif
 
-flash : all $(HEX)
+flash : all
 	$(info Programing device...)
 	$(OPENOCD) $(OOCD_INIT) $(OOCD_SAVE) $(OOCD_EXEC) $(OOCD_EXIT)
 

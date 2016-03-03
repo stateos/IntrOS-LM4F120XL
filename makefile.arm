@@ -1,9 +1,0 @@
-PROJECT =
-DEFS    = __MICROLIB
-LIBS    =
-DIRS    =
-KEYS    =
-INCS    =
-OUT_DIR =
-
-include startup/.arm/makefile
