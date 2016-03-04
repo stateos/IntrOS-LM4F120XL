@@ -1,7 +1,7 @@
 /*******************************************************************************
 @file     startup.c
 @author   Rajmund Szymanski
-@date     29.02.2016
+@date     04.03.2016
 @brief    LM4F120H5QR startup file.
           After reset the Cortex-M4 processor is in thread mode,
           priority is privileged, and the stack is set to main.
@@ -297,7 +297,7 @@ void PWM1_3_Handler    (void) __attribute__ ((weak, alias("Fault_Handler")));
 void PWM1_FAULT_Handler(void) __attribute__ ((weak, alias("Fault_Handler")));
 
 /*******************************************************************************
- Vector table for STM32F4xx (Cortex-M4F)
+ Vector table for LM4F120H5QR (Cortex-M4F)
 *******************************************************************************/
 
 void (* const vectors[])(void) __attribute__ ((used, section(".vectors"))) =

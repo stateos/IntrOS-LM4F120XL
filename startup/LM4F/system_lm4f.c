@@ -1,7 +1,7 @@
 /******************************************************************************
- * @file    system_stm32f4xx.c
+ * @file    system_lm4f.c
  * @author  Rajmund Szymanski
- * @date    20.11.2015
+ * @date    04.03.2016
  * @brief   This file provides set of configuration functions for LM4F uC.
  ******************************************************************************/
 
