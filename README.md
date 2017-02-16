@@ -11,7 +11,7 @@ Features
 - kernel works in cooperative (non-preemptive) mode only
 - signals (auto clearing, protected)
 - events
-- flags (one, all)
+- flags (any, all)
 - barriers
 - semaphores
 - mutexes
