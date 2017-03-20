@@ -28,7 +28,7 @@
 
 #pragma once
 
-#include <lm4f120h5qr.h>
+#include <LM4F120H5QR.h>
 
 // ----------------------------
 // cpu frequency in Hz
