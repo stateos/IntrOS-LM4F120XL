@@ -3,7 +3,7 @@
 
 int main()
 {
-    LED_Config();
+    LED_Init();
 
     for (unsigned i = 0; true; i++)
 	{
