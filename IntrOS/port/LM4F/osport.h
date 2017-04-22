@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    21.04.2017
+    @date    22.04.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -29,9 +29,9 @@
 #ifndef __INTROSPORT_H
 #define __INTROSPORT_H
 
-#include <stdint.h>
-#include <osconfig.h>
+#include <LM4F120H5QR.h>
 #include <inc/hw_timer.h>
+#include <osconfig.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,12 +41,6 @@ extern "C" {
 
 #define GLUE( a, b, c )            a##b##c
 #define  CAT( a, b, c )       GLUE(a, b, c)
-
-/* -------------------------------------------------------------------------- */
-
-#ifndef  __CORTEX_M
-#error   osconfig.h: Include CMSIS device peripheral access layer header file!
-#endif
 
 /* -------------------------------------------------------------------------- */
 

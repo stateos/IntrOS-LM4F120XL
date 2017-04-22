@@ -2,7 +2,7 @@
 
     @file    IntrOS: osconfig.h
     @author  Rajmund Szymanski
-    @date    21.05.2016
+    @date    22.04.2017
     @brief   IntrOS config file for LM4F uC.
 
  ******************************************************************************
@@ -28,8 +28,6 @@
 
 #pragma once
 
-#include <LM4F120H5QR.h>
-
 // ----------------------------
 // cpu frequency in Hz
 // default value: none
@@ -37,10 +35,22 @@
 
 // ----------------------------
 // os frequency in Hz
-// dafault value: 1000
+// OS_TIMER == 0 (SysTick) => dafault value:    1000
+// OS_TIMER >  0 (WTIMERx) => dafault value: 1000000 (tickless mode)
 #define  OS_FREQUENCY      1000
+
+// ----------------------------
+// system timer
+// 0:SysTick, 1-5:WTIMER1A-5A
+// default value: 0 (SysTick)
+#define  OS_TIMER             0
 
 // ----------------------------
 // default task stack size in bytes
 // default value: 256
-#define  OS_STACK_SIZE      512
+#define  OS_STACK_SIZE      256
+
+// ----------------------------
+// using standard assertions
+// default value: 0
+#define  OS_ASSERT            0
