@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    12.07.2017
+    @date    22.07.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -29,7 +29,7 @@
 #ifndef __INTROSPORT_H
 #define __INTROSPORT_H
 
-#include <LM4F120H5QR.h>
+#include <lm4f120h5qr.h>
 #include <inc/hw_timer.h>
 #include <osconfig.h>
 
@@ -114,12 +114,20 @@ extern "C" {
 /* -------------------------------------------------------------------------- */
 
 #ifndef  OS_FUNCTIONAL
+
+#if      defined(__CC_ARM) || defined(__CSMC__)
+#define  OS_FUNCTIONAL        0 /* c++ functional library header not included */
+#else
 #define  OS_FUNCTIONAL        1 /* include c++ functional library header      */
 #endif
 
-#if      OS_FUNCTIONAL && defined(__cplusplus) && defined(__CC_ARM)
+#elif    OS_FUNCTIONAL
+
+#if      defined(__cplusplus) && defined(__CC_ARM)
 #error   c++ functional library not allowed for this compiler.
 #endif
+
+#endif //OS_FUNCTIONAL
 
 /* -------------------------------------------------------------------------- */
 
