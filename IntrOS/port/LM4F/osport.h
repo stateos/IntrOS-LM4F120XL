@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    23.07.2017
+    @date    24.07.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -32,6 +32,7 @@
 #include <lm4f120h5qr.h>
 #include <inc/hw_timer.h>
 #include <osconfig.h>
+#include <osdefs.h>
 
 #ifdef __cplusplus
 extern "C" {
