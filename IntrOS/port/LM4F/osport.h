@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    22.07.2017
+    @date    23.07.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -86,65 +86,6 @@ extern "C" {
 /* -------------------------------------------------------------------------- */
 
 #define  ST_FREQUENCY (16000000/4) /* alternate clock source for SysTick      */
-
-/* -------------------------------------------------------------------------- */
-
-#ifndef  OS_STACK_SIZE
-#define  OS_STACK_SIZE      256 /* default task stack size in bytes           */
-#endif
-
-/* -------------------------------------------------------------------------- */
-
-#ifndef  OS_ASSERT
-#define  OS_ASSERT            0 /* do not include standard assertions         */
-#endif
-
-#if     (OS_ASSERT == 0)
-#ifndef  NDEBUG
-#define  NDEBUG
-#endif
-#endif
-
-#ifndef  NDEBUG
-#define  __ASSERT_MSG
-#endif
-
-#include <assert.h>
-
-/* -------------------------------------------------------------------------- */
-
-#ifndef  OS_FUNCTIONAL
-
-#if      defined(__CC_ARM) || defined(__CSMC__)
-#define  OS_FUNCTIONAL        0 /* c++ functional library header not included */
-#else
-#define  OS_FUNCTIONAL        1 /* include c++ functional library header      */
-#endif
-
-#elif    OS_FUNCTIONAL
-
-#if      defined(__cplusplus) && defined(__CC_ARM)
-#error   c++ functional library not allowed for this compiler.
-#endif
-
-#endif //OS_FUNCTIONAL
-
-/* -------------------------------------------------------------------------- */
-
-#if      defined(__CSMC__)
-
-#ifndef  __CONSTRUCTOR
-#define  __CONSTRUCTOR
-#warning No compiler specific solution for __CONSTRUCTOR. __CONSTRUCTOR is ignored.
-#endif
-
-#else
-
-#ifndef  __CONSTRUCTOR
-#define  __CONSTRUCTOR      __attribute__((constructor))
-#endif
-
-#endif
 
 /* -------------------------------------------------------------------------- */
 
