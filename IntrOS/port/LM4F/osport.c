@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.c
     @author  Rajmund Szymanski
-    @date    20.03.2017
+    @date    01.08.2017
     @brief   IntrOS port file for LM4F uC.
 
  ******************************************************************************
@@ -32,7 +32,7 @@
 
 void port_sys_init( void )
 {
-#if OS_TIMER
+#if OS_TICKLESS
 
 /******************************************************************************
  Put here configuration of system timer for tick-less mode
@@ -42,17 +42,17 @@ void port_sys_init( void )
 	#error Incorrect Timer frequency!
 	#endif
 
-	SYSCTL->RCGCWTIMER |= OS_TIM_CLK_ENABLE;
-	OS_TIM->CFG   = 4;
-	OS_TIM->TAMR  = TIMER_TAMR_TAMR_PERIOD;
-	OS_TIM->TAPR  = CPU_FREQUENCY/OS_FREQUENCY-1;
-	OS_TIM->CTL   = TIMER_CTL_TAEN;
+	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0;
+	WTIMER0->CFG  = 4;
+	WTIMER0->TAMR = TIMER_TAMR_TAMR_PERIOD;
+	WTIMER0->TAPR = CPU_FREQUENCY/OS_FREQUENCY-1;
+	WTIMER0->CTL  = TIMER_CTL_TAEN;
 
 /******************************************************************************
  End of configuration
 *******************************************************************************/
 
-#else //OS_TIMER == 0
+#else //OS_TICKLESS == 0
 
 /******************************************************************************
  Put here configuration of system timer for non-tick-less mode
@@ -78,12 +78,12 @@ void port_sys_init( void )
  End of configuration
 *******************************************************************************/
 
-#endif//OS_TIMER
+#endif//OS_TICKLESS
 }
 
 /* -------------------------------------------------------------------------- */
 
-#if OS_TIMER == 0
+#if OS_TICKLESS == 0
 
 /******************************************************************************
  Put here the procedure of interrupt handler of system timer for non-tick-less mode
@@ -91,6 +91,7 @@ void port_sys_init( void )
 
 void SysTick_Handler( void )
 {
+	SysTick->CTRL;
 	System.cnt++;
 }
 
@@ -98,6 +99,6 @@ void SysTick_Handler( void )
  End of the procedure of interrupt handler
 *******************************************************************************/
 
-#endif//OS_TIMER
+#endif//OS_TICKLESS
 
 /* -------------------------------------------------------------------------- */

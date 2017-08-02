@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    24.07.2017
+    @date    01.08.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -31,6 +31,7 @@
 
 #include <lm4f120h5qr.h>
 #include <inc/hw_timer.h>
+#include <inc/hw_sysctl.h>
 #include <osconfig.h>
 #include <osdefs.h>
 
@@ -40,26 +41,12 @@ extern "C" {
 
 /* -------------------------------------------------------------------------- */
 
-#define GLUE( a, b, c )            a##b##c
-#define  CAT( a, b, c )       GLUE(a, b, c)
-
-/* -------------------------------------------------------------------------- */
-
-#ifndef  OS_TIMER
-#define  OS_TIMER             0 /* os uses SysTick as system timer            */
+#ifndef  OS_TICKLESS
+#define  OS_TICKLESS          0 /* os not works in tick-less mode             */
 #endif
 
-/* -------------------------------------------------------------------------- */
-
-#if      OS_TIMER
-
-#define  OS_TIM            CAT(WTIMER,OS_TIMER,)
-#define  OS_TIM_CLK_ENABLE    ( 1U << OS_TIMER )
-#define  OS_TIM_IRQn       CAT(WTIMER,OS_TIMER,A_IRQn)
-#define  OS_TIM_IRQHandler CAT(WTIMER,OS_TIMER,A_Handler)
-
-#define  Counter          -OS_TIM->TAV
-
+#if      OS_TICKLESS
+#define  Counter       -WTIMER0->TAV
 #endif
 
 /* -------------------------------------------------------------------------- */
@@ -72,7 +59,7 @@ extern "C" {
 
 #ifndef  OS_FREQUENCY
 
-#if      OS_TIMER
+#if      OS_TICKLESS
 #define  OS_FREQUENCY   1000000 /* Hz */
 #else
 #define  OS_FREQUENCY      1000 /* Hz */
@@ -80,7 +67,7 @@ extern "C" {
 
 #endif //OS_FREQUENCY
 
-#if     (OS_TIMER == 0) && (OS_FREQUENCY > 1000)
+#if     (OS_TICKLESS == 0) && (OS_FREQUENCY > 1000)
 #error   osconfig.h: Incorrect OS_FREQUENCY value!
 #endif
 
