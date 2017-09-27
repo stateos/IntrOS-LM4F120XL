@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.c
     @author  Rajmund Szymanski
-    @date    08.08.2017
+    @date    27.09.2017
     @brief   IntrOS port file for LM4F uC.
 
  ******************************************************************************
@@ -94,7 +94,7 @@ void port_sys_init( void )
 void SysTick_Handler( void )
 {
 	SysTick->CTRL;
-	System.cnt++;
+	core_sys_tick();
 }
 
 /******************************************************************************
