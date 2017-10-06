@@ -17,8 +17,8 @@ install:
   - wget https://github.com/stateos/IntrOS/archive/master.zip -O IntrOS-master.zip
   - unzip -q -d . IntrOS-master.zip IntrOS-master/IntrOS/kernel/*
   - mv -T IntrOS-master/IntrOS/kernel/ IntrOS/kernel/
-  - unzip -q -d . IntrOS-master.zip IntrOS-master/IntrOS/port/LM4F/*
-  - mv -T IntrOS-master/IntrOS/port/CORTEXM/ IntrOS/port/LM4F/
+  - unzip -q -d . IntrOS-master.zip IntrOS-master/IntrOS/port/CORTEXM/*
+  - mv -T IntrOS-master/IntrOS/port/CORTEXM/ IntrOS/port/CORTEXM/ 
 
 before_script: arm-none-eabi-gcc --version
 
