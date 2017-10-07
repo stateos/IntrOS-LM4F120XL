@@ -14,11 +14,11 @@ before_install:
   - sudo apt-get install -y gcc-arm-embedded
 
 install:
-  - wget https://github.com/stateos/IntrOS/archive/master.zip -O IntrOS-master.zip
-  - unzip -q -d . IntrOS-master.zip IntrOS-master/IntrOS/kernel/*
+  - wget https://github.com/stateos/IntrOS/archive/master.zip
+  - unzip -q master.zip
   - mv -T IntrOS-master/IntrOS/kernel/ IntrOS/kernel/
-  - unzip -q -d . IntrOS-master.zip IntrOS-master/IntrOS/port/CORTEXM/*
-  - mv -T IntrOS-master/IntrOS/port/CORTEXM/ IntrOS/port/CORTEXM/ 
+  - mv -T IntrOS-master/IntrOS/port/CORTEXM/ IntrOS/port/CORTEXM/
+  - rm -r IntrOS-master
 
 before_script: arm-none-eabi-gcc --version
 
