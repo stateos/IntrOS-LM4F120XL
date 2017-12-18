@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.c
     @author  Rajmund Szymanski
-    @date    24.10.2017
+    @date    18.12.2017
     @brief   IntrOS port file for LM4F uC.
 
  ******************************************************************************
@@ -72,6 +72,7 @@ void port_sys_init( void )
 	#endif
 
 	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0;
+
 	WTIMER0->CFG  = 4;
 	WTIMER0->TAMR = TIMER_TAMR_TAMR_PERIOD;
 	WTIMER0->TAPR = (CPU_FREQUENCY)/(OS_FREQUENCY)-1;
@@ -97,6 +98,16 @@ void SysTick_Handler( void )
 	SysTick->CTRL;
 	core_sys_tick();
 }
+
+/******************************************************************************
+ End of the handler
+*******************************************************************************/
+
+#else //OS_TICKLESS
+
+/******************************************************************************
+ Tick-less mode: interrupt handler of system timer
+*******************************************************************************/
 
 /******************************************************************************
  End of the handler

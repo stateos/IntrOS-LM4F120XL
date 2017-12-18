@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    08.12.2017
+    @date    18.12.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -81,7 +81,7 @@ uint32_t port_sys_time( void )
 #if OS_TICKLESS
 	return -WTIMER0->TAV;
 #else
-	return 0U;
+	return 0;
 #endif
 }
 
