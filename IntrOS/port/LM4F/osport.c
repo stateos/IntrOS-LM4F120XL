@@ -72,6 +72,7 @@ void port_sys_init( void )
 	#endif
 
 	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0;
+	port_set_barrier();
 
 	WTIMER0->CFG  = 4;
 	WTIMER0->TAMR = TIMER_TAMR_TAMR_PERIOD;
