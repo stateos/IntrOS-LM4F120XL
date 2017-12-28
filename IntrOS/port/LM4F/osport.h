@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.h
     @author  Rajmund Szymanski
-    @date    18.12.2017
+    @date    28.12.2017
     @brief   IntrOS port definitions for LM4F uC.
 
  ******************************************************************************
@@ -32,7 +32,9 @@
 #include <LM4F120H5QR.h>
 #include <inc/hw_timer.h>
 #include <inc/hw_sysctl.h>
+#ifndef   NOCONFIG
 #include <osconfig.h>
+#endif
 #include <osdefs.h>
 
 #ifdef __cplusplus
@@ -41,49 +43,47 @@ extern "C" {
 
 /* -------------------------------------------------------------------------- */
 
-#ifndef OS_TICKLESS
-#define OS_TICKLESS           0 /* os does not work in tick-less mode         */
-#endif
-
-/* -------------------------------------------------------------------------- */
-
 #ifndef CPU_FREQUENCY
-#error  osconfig.h: Undefined CPU_FREQUENCY value!
+#define CPU_FREQUENCY  80000000 /* Hz */
 #endif
 
 /* -------------------------------------------------------------------------- */
 
 #ifndef OS_FREQUENCY
-
-#if     OS_TICKLESS
-#define OS_FREQUENCY    1000000 /* Hz */
-#else
 #define OS_FREQUENCY       1000 /* Hz */
 #endif
 
-#endif//OS_FREQUENCY
+/* -------------------------------------------------------------------------- */
 
-#if    (OS_TICKLESS == 0) && (OS_FREQUENCY > 1000)
-#error  osconfig.h: Incorrect OS_FREQUENCY value!
+#ifdef  HW_TIMER_SIZE
+#error  HW_TIMER_SIZE is an internal definition!
+#elif   OS_FREQUENCY > 1000 
+#define HW_TIMER_SIZE        32
+#else
+#define HW_TIMER_SIZE         0
 #endif
 
 /* -------------------------------------------------------------------------- */
 // alternate clock source for SysTick
 
+#ifdef  ST_FREQUENCY
+#error  ST_FREQUENCY is an internal definition!
+#else
 #define ST_FREQUENCY  (16000000/4)
+#endif
 
 /* -------------------------------------------------------------------------- */
 // return current system time
 
+#if HW_TIMER_SIZE >= 32
+
 __STATIC_INLINE
 uint32_t port_sys_time( void )
 {
-#if OS_TICKLESS
 	return -WTIMER0->TAV;
-#else
-	return 0;
-#endif
 }
+
+#endif
 
 /* -------------------------------------------------------------------------- */
 
