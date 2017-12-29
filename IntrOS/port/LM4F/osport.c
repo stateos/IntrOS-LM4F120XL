@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.c
     @author  Rajmund Szymanski
-    @date    28.12.2017
+    @date    29.12.2017
     @brief   IntrOS port file for LM4F uC.
 
  ******************************************************************************
@@ -71,8 +71,7 @@ void port_sys_init( void )
 	#error Incorrect Timer frequency!
 	#endif
 
-	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0;
-	port_set_barrier();
+	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0; __ISB();
 
 	WTIMER0->CFG  = 4;
 	WTIMER0->TAMR = TIMER_TAMR_TAMR_PERIOD;
