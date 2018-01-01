@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.c
     @author  Rajmund Szymanski
-    @date    29.12.2017
+    @date    01.01.2018
     @brief   IntrOS port file for LM4F uC.
 
  ******************************************************************************
@@ -71,10 +71,18 @@ void port_sys_init( void )
 	#error Incorrect Timer frequency!
 	#endif
 
-	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0; __ISB();
-
+	SYSCTL->RCGCWTIMER |= SYSCTL_RCGCWTIMER_R0;
+	#if HW_TIMER_SIZE < OS_TIMER_SIZE
+	NVIC_SetPriority(WTIMER0A_IRQn, 0xFF);
+	NVIC_EnableIRQ(WTIMER0A_IRQn);
+	#else
+	__ISB();
+	#endif
 	WTIMER0->CFG  = TIMER_CFG_16_BIT; // WTIMER is 32 bit
 	WTIMER0->TAMR = TIMER_TAMR_TAMR_PERIOD;
+	#if HW_TIMER_SIZE < OS_TIMER_SIZE
+	WTIMER0->IMR  = TIMER_IMR_TATOIM;
+	#endif
 	WTIMER0->TAPR = (CPU_FREQUENCY)/(OS_FREQUENCY)-1;
 	WTIMER0->CTL  = TIMER_CTL_TAEN;
 
@@ -109,8 +117,51 @@ void SysTick_Handler( void )
  Tick-less mode: interrupt handler of system timer
 *******************************************************************************/
 
+#if HW_TIMER_SIZE < OS_TIMER_SIZE
+
+void WTIMER0A_Handler( void )
+{
+//	if (WTIMER0->MIS & TIMER_MIS_TATOMIS)
+	{
+		WTIMER0->ICR = TIMER_ICR_TATOCINT;
+		core_sys_tick();
+		__ISB(); // delay because of GNUCC
+	}
+}
+
+#endif
+
 /******************************************************************************
  End of the handler
+*******************************************************************************/
+
+/******************************************************************************
+ Tick-less mode: return current system time
+*******************************************************************************/
+
+#if HW_TIMER_SIZE < OS_TIMER_SIZE
+
+cnt_t port_sys_time( void )
+{
+	cnt_t    cnt;
+	uint32_t tck;
+
+	cnt = System.cnt;
+	tck = -WTIMER0->TAV;
+
+	if (WTIMER0->MIS & TIMER_MIS_TATOMIS)
+	{
+		tck = -WTIMER0->TAV;
+		cnt += (cnt_t)(1) << (HW_TIMER_SIZE);
+	}
+
+	return cnt + tck;
+}
+
+#endif
+
+/******************************************************************************
+ End of the function
 *******************************************************************************/
 
 #endif//HW_TIMER_SIZE
