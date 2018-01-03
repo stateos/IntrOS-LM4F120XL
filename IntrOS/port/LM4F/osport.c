@@ -2,7 +2,7 @@
 
     @file    IntrOS: osport.c
     @author  Rajmund Szymanski
-    @date    01.01.2018
+    @date    03.01.2018
     @brief   IntrOS port file for LM4F uC.
 
  ******************************************************************************
@@ -78,13 +78,16 @@ void port_sys_init( void )
 	#else
 	__ISB();
 	#endif
-	WTIMER0->CFG  = TIMER_CFG_16_BIT; // WTIMER is 32 bit
-	WTIMER0->TAMR = TIMER_TAMR_TAMR_PERIOD;
-	#if HW_TIMER_SIZE < OS_TIMER_SIZE
-	WTIMER0->IMR  = TIMER_IMR_TATOIM;
+	WTIMER0->CFG   = TIMER_CFG_16_BIT; // WTIMER is 32 bit
+	WTIMER0->TAMR  = TIMER_TAMR_TAMR_PERIOD;
+	#if HW_TIMER_SIZE > OS_TIMER_SIZE
+	WTIMER0->TAILR = CNT_MAX;
 	#endif
-	WTIMER0->TAPR = (CPU_FREQUENCY)/(OS_FREQUENCY)-1;
-	WTIMER0->CTL  = TIMER_CTL_TAEN;
+	WTIMER0->TAPR  = (CPU_FREQUENCY)/(OS_FREQUENCY)-1;
+	WTIMER0->CTL   = TIMER_CTL_TAEN;
+	#if HW_TIMER_SIZE < OS_TIMER_SIZE
+	WTIMER0->IMR   = TIMER_IMR_TATOIM;
+	#endif
 
 /******************************************************************************
  End of configuration
