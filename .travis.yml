@@ -11,8 +11,7 @@ install:
 before_script:
   - wget https://github.com/stateos/IntrOS/archive/master.zip
   - unzip -q master.zip
-  - mv -T IntrOS-master/IntrOS/kernel/ IntrOS/kernel/
-  - mv -T IntrOS-master/IntrOS/port/CORTEXM/ IntrOS/port/CORTEXM/
+  - mv IntrOS-master/IntrOS/* IntrOS/
   - rm -r IntrOS-master
 
 script: make all GNUCC=arm-none-eabi- -f makefile.gnucc
