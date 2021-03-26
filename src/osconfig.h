@@ -2,7 +2,7 @@
 
     @file    IntrOS: osconfig.h
     @author  Rajmund Szymanski
-    @date    24.01.2018
+    @date    16.12.2020
     @brief   IntrOS config file for LM4F uC.
 
  ******************************************************************************
@@ -42,12 +42,39 @@
 #define OS_FREQUENCY       1000
 
 // ----------------------------
+// critical sections protection level
+// OS_LOCK_LEVEL == 0 or  __CORTEX_M <  3 => entrance to a critical section blocks all interrupts
+// OS_LOCK_LEVEL >  0 and __CORTEX_M >= 3 => entrance to a critical section blocks interrupts with urgency lower or equal (the priority value greater or equal) than OS_LOCK_LEVEL
+// default value: 0
+#define OS_LOCK_LEVEL         0
+
+// ----------------------------
 // default task stack size in bytes
 // default value: 256
-#define OS_STACK_SIZE       256
+#define OS_STACK_SIZE      1024
+
+// ----------------------------
+// task stack guard size in bytes (if MPU is present, indicates the size of the MPU region)
+// DEBUG => the default value depends on the port settings
+// otherwise => default value: 0
+#define OS_GUARD_SIZE        32
 
 // ----------------------------
 // bit size of system timer counter
 // available values: 16, 32, 64
 // default value: 32
 #define OS_TIMER_SIZE        32
+
+// ----------------------------
+// system procedure for starting the task
+// available values: 0, 1
+// 0 => task function will be executed into an infinite system-implemented loop
+// 1 => while return from the task function, tsk_exit will be executed
+// default value: 0
+#define OS_TASK_EXIT          0
+
+// ----------------------------
+// indicates the use of atomic functions
+// available values: 0, 1
+// default value: 0
+#define OS_ATOMICS            0
